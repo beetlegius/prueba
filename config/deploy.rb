@@ -1,3 +1,4 @@
+require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
@@ -23,8 +24,8 @@ set :forward_agent, true     # SSH forward_agent.
 # Shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
 # Some plugins already add folders to shared_dirs like `mina/rails` add `public/assets`, `vendor/bundle` and many more
 # run `mina -d` to see all folders and files already included in `shared_dirs` and `shared_files`
-# set :shared_dirs, fetch(:shared_dirs, []).push('public/assets')
-set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/master.key')
+# set :shared_dirs, fetch(:shared_dirs, []).push('config')
+set :shared_files, fetch(:shared_files, []).push('config/master.key')
 
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
@@ -41,6 +42,9 @@ end
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
   # command %{rbenv install 2.3.0 --skip-existing}
+  # command %[touch "#{fetch(:shared_path)}/config/database.yml"]
+  # command %[touch "#{fetch(:shared_path)}/config/credentials.yml.enc"]
+  # command %[touch "#{fetch(:shared_path)}/config/master.key"]
 end
 
 desc "Deploys the current version to the server."
